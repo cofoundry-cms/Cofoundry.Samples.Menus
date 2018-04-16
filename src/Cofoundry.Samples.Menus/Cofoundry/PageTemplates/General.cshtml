@@ -1,13 +1,13 @@
-﻿@inherits CofoundryTemplatePage<IPageViewModel>
+﻿@model IPageViewModel
+@inject ICofoundryTemplateHelper<IPageViewModel> Cofoundry
 
-@Cofoundry.Template.UseDescription("A bare template for creating test pages")
+@Cofoundry.Template.UseDescription("A bare template for testing")
 
+<h1 class="mt-3">@Model.PageTitle</h1>
 
-<h1>@Model.PageTitle</h1>
-
-<div>
-    @(Cofoundry.Template.Section("Body")
-            .AllowMultipleModules()
-            .AllowModuleType<RawHtmlDataModel>()
-            .EmptyContentMinHeight(500))
+<div class="row mt-4 mb-5">
+    @(await Cofoundry.Template.Region("Body")
+                .AllowMultipleBlocks()
+                .EmptyContentMinHeight(500)
+                .InvokeAsync())
 </div>
