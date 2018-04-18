@@ -10,7 +10,7 @@ else
         @foreach (var item in Model.Pages)
         {
         <li class="nav-item">
-            <a class="nav-link" href="@item.FullPath">@item.Title</a>
+            <a class="nav-link" href="@item.FullPath" th-active-link>@item.Title</a>
         </li>
         }
     </ul>

@@ -3,7 +3,7 @@
     Layout = null;
 }
 <li>
-    <a href="@Model.PageRoute.FullPath">@Model.Title</a>
+    <a href="@Model.PageRoute.FullPath" th-active-link>@Model.Title</a>
 
     @if (Model.ChildNodes.Any())
     {
