@@ -9,7 +9,7 @@ namespace Cofoundry.Samples.Menus
     /// <summary>
     /// The multi-level menu example demonstrates how to create
     /// a menu with an unlimited number of menu levels (i.e a tree 
-    /// strcuture) using a recursive data model definition.
+    /// structure) using a recursive data model definition.
     /// </summary>
     public class MultiLevelMenuDefinition : ICustomizedTermCustomEntityDefinition<MultiLevelMenuDataModel>
     {
