@@ -20,13 +20,13 @@ To get you started we've put together some optional test data:
 
 Each menu type is created using [Custom Entities](https://github.com/cofoundry-cms/cofoundry/wiki/Custom-Entities) to store the data and asp.net [View Components](https://docs.microsoft.com/en-us/aspnet/core/mvc/views/view-components) to render the data.
 
-#### Simple Menu
+### Simple Menu
 
 ![Simple menu output](readme/SimpleMenu.png)
 
 The simple menu demonstrates how you can build a content manageable list of pages using the `[PageCollection]` attribute.
 
-#### Nested Menu
+### Nested Menu
 
 ![Nested menu output](readme/NestedMenu.png)
 
@@ -34,7 +34,7 @@ The nested menu demonstrates how you can build menus with a pre-defined number o
 
 This example only contains one nested menu level, but you could define more by creating and nested more menu types. To use an indeterminate number of menu levels (i.e. a tree structure) have a look at the multi-level menu example.
 
-#### Multi-level Menu
+### Multi-level Menu
 
 ![Multi-level menu output](readme/MultiLevelMenu.png)
 
