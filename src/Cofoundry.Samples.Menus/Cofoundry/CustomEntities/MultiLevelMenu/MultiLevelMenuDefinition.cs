@@ -11,7 +11,9 @@ namespace Cofoundry.Samples.Menus
     /// a menu with an unlimited number of menu levels (i.e a tree 
     /// structure) using a recursive data model definition.
     /// </summary>
-    public class MultiLevelMenuDefinition : ICustomizedTermCustomEntityDefinition<MultiLevelMenuDataModel>
+    public class MultiLevelMenuDefinition 
+        : ICustomEntityDefinition<MultiLevelMenuDataModel>
+        , ICustomizedTermCustomEntityDefinition
     {
         public const string DefinitionCode = "MNUMUL";
 

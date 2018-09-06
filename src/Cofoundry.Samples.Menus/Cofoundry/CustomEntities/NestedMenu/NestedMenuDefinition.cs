@@ -20,7 +20,9 @@ namespace Cofoundry.Samples.Menus
     /// structure) have a look at the MultiLevelMenuDataModel.
     /// </para>
     /// </summary>
-    public class NestedMenuDefinition : ICustomizedTermCustomEntityDefinition<NestedMenuDataModel>
+    public class NestedMenuDefinition 
+        : ICustomEntityDefinition<NestedMenuDataModel>
+        , ICustomizedTermCustomEntityDefinition
     {
         public const string DefinitionCode = "MNUNST";
 

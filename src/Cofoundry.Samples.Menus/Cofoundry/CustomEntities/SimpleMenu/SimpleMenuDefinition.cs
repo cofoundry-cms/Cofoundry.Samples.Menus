@@ -10,7 +10,9 @@ namespace Cofoundry.Samples.Menus
     /// The simple menu demonstrates how you can build a content
     /// manageable list of pages using the [PageCollection] attribute.
     /// </summary>
-    public class SimpleMenuDefinition : ICustomizedTermCustomEntityDefinition<SimpleMenuDataModel>
+    public class SimpleMenuDefinition 
+        : ICustomEntityDefinition<SimpleMenuDataModel>
+        , ICustomizedTermCustomEntityDefinition
     {
         public const string DefinitionCode = "MNUSPL";
 

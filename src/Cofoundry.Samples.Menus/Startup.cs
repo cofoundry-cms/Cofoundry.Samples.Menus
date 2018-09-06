@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Cofoundry.Web;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -25,8 +26,14 @@ namespace Cofoundry.Samples.Menus
                 .AddCofoundry(Configuration);
         }
 
-        public void Configure(IApplicationBuilder app)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            if (!env.IsDevelopment())
+            {
+                app.UseHsts();
+            }
+
+            app.UseHttpsRedirection();
             app.UseCofoundry();
         }
     }
