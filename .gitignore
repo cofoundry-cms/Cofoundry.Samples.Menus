@@ -153,3 +153,5 @@ $RECYCLE.BIN/
 src/.vs
 src/Cofoundry.Samples.PageModules/App_Data/Files/Images
 src/Cofoundry.Samples.PageModules/App_Data/Files/ImageAssetCache
+
+.vs
