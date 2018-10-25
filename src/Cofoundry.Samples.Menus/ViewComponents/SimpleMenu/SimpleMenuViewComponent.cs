@@ -57,16 +57,13 @@ namespace Cofoundry.Samples.Menus
             return View(viewModel);
         }
 
-        /// <summary>
-        /// Note that this query isn't optimal and does client side filtering. This
-        /// will be fixed in an upcoming release. See issue #81.
-        /// </summary>
         private async Task<CustomEntityRenderSummary> GetMenuByIdAsync(string menuId)
         {
-            // To be relaced by a get custom entity by url slug query
-            var customEntityQuery = new GetCustomEntityRenderSummariesByDefinitionCodeQuery(SimpleMenuDefinition.DefinitionCode);
-            var menus = await _customEntityRepository.GetCustomEntityRenderSummariesByDefinitionCodeAsync(customEntityQuery);
+            var customEntityQuery = new GetCustomEntityRenderSummariesByUrlSlugQuery(SimpleMenuDefinition.DefinitionCode, menuId);
+            var menus = await _customEntityRepository.GetCustomEntityRenderSummariesByUrlSlugAsync(customEntityQuery);
 
+            // Forcing UrlSlug uniqueness is a setting on the custom entity definition and therefpre
+            // the query has to account for multiple return items. Here we only expect one item.
             return menus.FirstOrDefault(s => s.UrlSlug == menuId);
         }
     }
