@@ -104,7 +104,7 @@ namespace Cofoundry.Samples.Menus
 
             // Forcing UrlSlug uniqueness is a setting on the custom entity definition and therefpre
             // the query has to account for multiple return items. Here we only expect one item.
-            return menus.FirstOrDefault(s => s.UrlSlug == menuId);
+            return menus.FirstOrDefault();
         }
     }
 }
