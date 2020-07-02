@@ -13,6 +13,7 @@ namespace Cofoundry.Samples.Menus
     public class SimpleMenuDefinition 
         : ICustomEntityDefinition<SimpleMenuDataModel>
         , ICustomizedTermCustomEntityDefinition
+        , IOrderableCustomEntityDefinition
     {
         public const string DefinitionCode = "MNUSPL";
 
@@ -40,5 +41,7 @@ namespace Cofoundry.Samples.Menus
         {
             { CustomizableCustomEntityTermKeys.Title, "Identifier" }
         };
+
+        public CustomEntityOrdering Ordering => CustomEntityOrdering.Partial;
     }
 }
