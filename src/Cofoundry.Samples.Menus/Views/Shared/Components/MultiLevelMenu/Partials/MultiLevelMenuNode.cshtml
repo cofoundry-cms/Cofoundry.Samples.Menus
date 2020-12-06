@@ -10,7 +10,7 @@
     <ul>
         @foreach (var childItem in Model.ChildNodes)
         {
-            @Html.Partial("Components/MultiLevelMenu/Partials/MultiLevelMenuNode", childItem)
+            @await Html.PartialAsync("Components/MultiLevelMenu/Partials/MultiLevelMenuNode", childItem)
         }
     </ul>
     }

@@ -15,16 +15,13 @@ namespace Cofoundry.Samples.Menus
     /// </summary>
     public class NestedMenuViewComponent : ViewComponent
     {
-        private readonly ICustomEntityRepository _customEntityRepository;
-        private readonly IPageRepository _pageRepository;
+        private readonly IContentRepository _contentRepository;
 
         public NestedMenuViewComponent(
-            ICustomEntityRepository customEntityRepository,
-            IPageRepository pageRepository
+            IContentRepository contentRepository
             )
         {
-            _customEntityRepository = customEntityRepository;
-            _pageRepository = pageRepository;
+            _contentRepository = contentRepository;
         }
 
         public async Task<IViewComponentResult> InvokeAsync(string menuId)
@@ -41,7 +38,11 @@ namespace Cofoundry.Samples.Menus
 
             // Gather all pages required for mapping
             var allPageIds = ExtractPageIds(dataModel);
-            var allPages = await _pageRepository.GetPageRoutesByIdRangeAsync(allPageIds);
+            var allPages = await _contentRepository
+                .Pages()
+                .GetByIdRange(allPageIds)
+                .AsRoutes()
+                .ExecuteAsync();
 
             // Map the menu items
             viewModel.Items = EnumerableHelper.Enumerate(dataModel.Items)
@@ -99,8 +100,8 @@ namespace Cofoundry.Samples.Menus
 
         private async Task<CustomEntityRenderSummary> GetMenuByIdAsync(string menuId)
         {
-            var customEntityQuery = new GetCustomEntityRenderSummariesByUrlSlugQuery(NestedMenuDefinition.DefinitionCode, menuId);
-            var menus = await _customEntityRepository.GetCustomEntityRenderSummariesByUrlSlugAsync(customEntityQuery);
+            var customEntityQuery = new GetCustomEntityRenderSummariesByUrlSlugQuery(MultiLevelMenuDefinition.DefinitionCode, menuId);
+            var menus = await _contentRepository.ExecuteQueryAsync(customEntityQuery);
 
             // Forcing UrlSlug uniqueness is a setting on the custom entity definition and therefpre
             // the query has to account for multiple return items. Here we only expect one item.

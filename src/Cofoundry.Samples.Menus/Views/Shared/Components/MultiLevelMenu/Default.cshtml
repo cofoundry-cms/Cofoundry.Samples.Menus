@@ -9,7 +9,7 @@ else
     <ul>
         @foreach (var item in Model.Nodes)
         {
-            @Html.Partial("Components/MultiLevelMenu/Partials/MultiLevelMenuNode", item)
+            @await Html.PartialAsync("Components/MultiLevelMenu/Partials/MultiLevelMenuNode", item)
         }
     </ul>
 }

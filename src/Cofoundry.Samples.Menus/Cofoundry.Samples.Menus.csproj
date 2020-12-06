@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Cofoundry.Web.Admin" Version="0.7.0" />
+    <PackageReference Include="Cofoundry.Web.Admin" Version="0.8.0" />
   </ItemGroup>
 
 </Project>
