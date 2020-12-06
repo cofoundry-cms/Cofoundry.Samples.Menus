@@ -100,7 +100,7 @@ namespace Cofoundry.Samples.Menus
 
         private async Task<CustomEntityRenderSummary> GetMenuByIdAsync(string menuId)
         {
-            var customEntityQuery = new GetCustomEntityRenderSummariesByUrlSlugQuery(MultiLevelMenuDefinition.DefinitionCode, menuId);
+            var customEntityQuery = new GetCustomEntityRenderSummariesByUrlSlugQuery(NestedMenuDefinition.DefinitionCode, menuId);
             var menus = await _contentRepository.ExecuteQueryAsync(customEntityQuery);
 
             // Forcing UrlSlug uniqueness is a setting on the custom entity definition and therefpre
