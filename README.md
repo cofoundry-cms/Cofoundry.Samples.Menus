@@ -4,7 +4,7 @@ A bare website showing various examples of creating content editable menus.
 
 #### To get started:
 
-1. Create a database named 'Cofoundry.Samples.Menus' and check the Cofoundry connection string in the appsettings.josn file is correct for you sql server instance
+1. Create a database named 'Cofoundry.Samples.Menus' and check the Cofoundry connection string in the appsettings.josn file is correct for your SQL Server instance
 2. Run the website and navigate to *"/admin"*, which will display the setup screen
 3. Enter an application name and setup your user account. Submit the form to complete the site setup. 
 4. Either log in and enter your own data or follow the steps below to import some test data
@@ -18,7 +18,7 @@ To get you started we've put together some optional test data:
  
 ## Menu Types
 
-Each menu type is created using [Custom Entities](https://github.com/cofoundry-cms/cofoundry/wiki/Custom-Entities) to store the data and asp.net [View Components](https://docs.microsoft.com/en-us/aspnet/core/mvc/views/view-components) to render the data.
+Each menu type is created using [Custom Entities](https://www.cofoundry.org/docs/content-management/custom-entities) to store the data and asp.net [View Components](https://docs.microsoft.com/en-us/aspnet/core/mvc/views/view-components) to render the data.
 
 ### Simple Menu
 
@@ -30,7 +30,7 @@ The simple menu demonstrates how you can build a content manageable list of page
 
 ![Nested menu output](readme/NestedMenu.png)
 
-The nested menu demonstrates how you can build menus with a pre-defined number of menu levels. This is achieved using [nested data models](https://github.com/cofoundry-cms/cofoundry/wiki/Data-Model-Annotations#nested-data-models) and the `[NestedDataModelCollection]` attribute.
+The nested menu demonstrates how you can build menus with a pre-defined number of menu levels. This is achieved using [nested data models](https://www.cofoundry.org/docs/content-management/data-model-annotations/nested-data-models) and the `[NestedDataModelCollection]` attribute.
 
 This example only contains one nested menu level, but you could define more by creating and nested more menu types. To use an indeterminate number of menu levels (i.e. a tree structure) have a look at the multi-level menu example.
 
