@@ -1,16 +1,10 @@
-﻿using Cofoundry.Domain;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace Cofoundry.Samples.Menus
+namespace Cofoundry.Samples.Menus;
+
+public class MultiLevelMenuDataModel : ICustomEntityDataModel
 {
-    public class MultiLevelMenuDataModel : ICustomEntityDataModel
-    {
-        [Required]
-        [NestedDataModelCollection(IsOrderable = true)]
-        public ICollection<MultiLevelMenuNodeDataModel> Items { get; set; }
-    }
+    [Required]
+    [NestedDataModelCollection(IsOrderable = true)]
+    public ICollection<MultiLevelMenuNodeDataModel> Items { get; set; }
 }

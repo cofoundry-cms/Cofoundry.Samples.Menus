@@ -4,7 +4,7 @@ A bare website showing various examples of creating content editable menus.
 
 #### To get started:
 
-1. Create a database named 'Cofoundry.Samples.Menus' and check the Cofoundry connection string in the appsettings.josn file is correct for your SQL Server instance
+1. Create a database named 'Cofoundry.Samples.Menus' and check the Cofoundry connection string in the appsettings.json file is correct for your SQL Server instance
 2. Run the website and navigate to *"/admin"*, which will display the setup screen
 3. Enter an application name and setup your user account. Submit the form to complete the site setup. 
 4. Either log in and enter your own data or follow the steps below to import some test data
