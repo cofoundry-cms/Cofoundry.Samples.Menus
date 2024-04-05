@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace Cofoundry.Samples.Menus;
 
@@ -10,12 +10,12 @@ public class MultiLevelMenuNodeDataModel : INestedDataModel
 {
     [Required]
     [MaxLength(30)]
-    public string Title { get; set; }
+    public string Title { get; set; } = string.Empty;
 
     [Required]
     [Page]
     public int PageId { get; set; }
 
     [NestedDataModelCollection(IsOrderable = true)]
-    public ICollection<MultiLevelMenuNodeDataModel> Items { get; set; }
+    public IReadOnlyCollection<MultiLevelMenuNodeDataModel> Items { get; set; } = Array.Empty<MultiLevelMenuNodeDataModel>();
 }

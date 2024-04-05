@@ -1,10 +1,10 @@
-﻿namespace Cofoundry.Samples.Menus;
+namespace Cofoundry.Samples.Menus;
 
 public class MultiLevelMenuNodeViewModel
 {
-    public string Title { get; set; }
+    public required string Title { get; set; }
 
-    public PageRoute PageRoute { get; set; }
+    public required PageRoute PageRoute { get; set; }
 
-    public ICollection<MultiLevelMenuNodeViewModel> ChildNodes { get; set; }
+    public required IReadOnlyCollection<MultiLevelMenuNodeViewModel> ChildNodes { get; set; }
 }

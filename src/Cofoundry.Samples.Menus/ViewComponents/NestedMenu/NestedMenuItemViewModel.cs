@@ -1,10 +1,10 @@
-﻿namespace Cofoundry.Samples.Menus;
+namespace Cofoundry.Samples.Menus;
 
 public class NestedMenuItemViewModel
 {
-    public string Title { get; set; }
+    public required string Title { get; set; }
 
-    public PageRoute PageRoute { get; set; }
+    public required PageRoute PageRoute { get; set; }
 
-    public ICollection<NestedMenuChildItemViewModel> ChildItems { get; set; }
+    public required IReadOnlyCollection<NestedMenuChildItemViewModel> ChildItems { get; set; }
 }

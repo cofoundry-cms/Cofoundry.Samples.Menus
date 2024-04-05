@@ -1,4 +1,4 @@
-﻿namespace Cofoundry.Samples.Menus;
+namespace Cofoundry.Samples.Menus;
 
 /// <summary>
 /// <para>
@@ -40,7 +40,7 @@ public class NestedMenuDefinition
     /// Here we customize the title of the menu to be displayed
     /// as 'Identifier', which better describes its purpose.
     /// </summary>
-    public Dictionary<string, string> CustomTerms => new Dictionary<string, string>()
+    public Dictionary<string, string> CustomTerms => new()
     {
         { CustomizableCustomEntityTermKeys.Title, "Identifier" }
     };

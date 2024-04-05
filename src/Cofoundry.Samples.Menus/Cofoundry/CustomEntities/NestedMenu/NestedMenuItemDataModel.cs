@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace Cofoundry.Samples.Menus;
 
@@ -6,7 +6,7 @@ public class NestedMenuItemDataModel : INestedDataModel
 {
     [MaxLength(30)]
     [Required]
-    public string Title { get; set; }
+    public string Title { get; set; } = string.Empty;
 
     [Required]
     [Page]
@@ -14,5 +14,5 @@ public class NestedMenuItemDataModel : INestedDataModel
 
     [Display(Name = "Level 2 Items")]
     [NestedDataModelCollection]
-    public ICollection<NestedMenuChildItemDataModel> ChildItems { get; set; }
+    public ICollection<NestedMenuChildItemDataModel> ChildItems { get; set; } = Array.Empty<NestedMenuChildItemDataModel>();
 }

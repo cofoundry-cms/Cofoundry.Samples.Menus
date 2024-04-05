@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Cofoundry.Samples.Menus;
 
@@ -20,14 +20,21 @@ public class MultiLevelMenuViewComponent : ViewComponent
 
     public async Task<IViewComponentResult> InvokeAsync(string menuId)
     {
-        var viewModel = new MultiLevelMenuViewModel();
-        viewModel.MenuId = menuId;
+        var viewModel = new MultiLevelMenuViewModel
+        {
+            MenuId = menuId,
+            Nodes = Array.Empty<MultiLevelMenuNodeViewModel>()
+        };
 
         // Get the menu entity
         var menuEntity = await GetMenuByIdAsync(menuId);
 
         // If not exists, return empty model
-        if (menuEntity == null) return View(viewModel);
+        if (menuEntity == null)
+        {
+            return View(viewModel);
+        }
+
         var dataModel = (MultiLevelMenuDataModel)menuEntity.Model;
 
         // Gather all pages required for mapping
@@ -41,31 +48,44 @@ public class MultiLevelMenuViewComponent : ViewComponent
         // Map the menu items recusively
         viewModel.Nodes = EnumerableHelper.Enumerate(dataModel.Items)
             .Select(i => MapMenuNodeViewModel(i, allPages))
-            .Where(i => i.PageRoute != null)
+            .WhereNotNull()
             .ToArray();
 
         return View(viewModel);
     }
 
-    private MultiLevelMenuNodeViewModel MapMenuNodeViewModel(MultiLevelMenuNodeDataModel dataModel, IDictionary<int, PageRoute> allPages)
+    private static MultiLevelMenuNodeViewModel? MapMenuNodeViewModel(MultiLevelMenuNodeDataModel dataModel, IReadOnlyDictionary<int, PageRoute> allPages)
     {
+        var pageRoute = allPages.GetValueOrDefault(dataModel.PageId);
+        if (pageRoute == null)
+        {
+            return null;
+        }
+
+        var childNodes = EnumerableHelper
+            .Enumerate(dataModel.Items)
+            .Select(i => MapMenuNodeViewModel(i, allPages))
+            .WhereNotNull()
+            .ToArray();
+
         var viewModelItem = new MultiLevelMenuNodeViewModel()
         {
             Title = dataModel.Title,
-            PageRoute = allPages.GetOrDefault(dataModel.PageId)
+            PageRoute = pageRoute,
+            ChildNodes = childNodes
         };
 
         // recusively map the view models
         viewModelItem.ChildNodes = EnumerableHelper
             .Enumerate(dataModel.Items)
             .Select(i => MapMenuNodeViewModel(i, allPages))
-            .Where(i => i.PageRoute != null)
+            .WhereNotNull()
             .ToArray();
 
         return viewModelItem;
     }
 
-    private static IEnumerable<int> ExtractPageIds(ICollection<MultiLevelMenuNodeDataModel> nestedNodes)
+    private static IEnumerable<int> ExtractPageIds(IReadOnlyCollection<MultiLevelMenuNodeDataModel> nestedNodes)
     {
         foreach (var node in EnumerableHelper.Enumerate(nestedNodes))
         {
@@ -79,7 +99,7 @@ public class MultiLevelMenuViewComponent : ViewComponent
         }
     }
 
-    private async Task<CustomEntityRenderSummary> GetMenuByIdAsync(string menuId)
+    private async Task<CustomEntityRenderSummary?> GetMenuByIdAsync(string menuId)
     {
         var customEntityQuery = new GetCustomEntityRenderSummariesByUrlSlugQuery(MultiLevelMenuDefinition.DefinitionCode, menuId);
         var menus = await _contentRepository.ExecuteQueryAsync(customEntityQuery);

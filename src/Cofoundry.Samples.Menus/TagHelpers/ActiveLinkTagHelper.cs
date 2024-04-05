@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Globalization;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
@@ -17,23 +18,32 @@ public class ActiveLinkTagHelper : TagHelper
     private const string ATTRIBUTE = "th-active-link";
 
     [ViewContext]
-    public ViewContext ViewContext { get; set; }
+    public ViewContext ViewContext { get; set; } = null!;
 
     public override void Process(TagHelperContext context, TagHelperOutput output)
     {
         var request = ViewContext?.HttpContext?.Request;
-        if (request == null) return;
+        if (request == null)
+        {
+            return;
+        }
 
         var href = ParseHref(output);
-        if (href == null) return;
+        if (href == null)
+        {
+            return;
+        }
 
         var isActive = request.Path.StartsWithSegments(href);
-        if (!isActive) return;
+        if (!isActive)
+        {
+            return;
+        }
 
         var existingClassValue = output
             .Attributes
             .Where(a => a.Name == ATTR_CLASS)
-            .Select(a => Convert.ToString(a.Value))
+            .Select(a => Convert.ToString(a.Value, CultureInfo.InvariantCulture))
             .FirstOrDefault();
 
         if (existingClassValue == null)
@@ -50,17 +60,20 @@ public class ActiveLinkTagHelper : TagHelper
         base.Process(context, output);
     }
 
-    private string ParseHref(TagHelperOutput output)
+    private string? ParseHref(TagHelperOutput output)
     {
         var href = output
             .Attributes
             .Where(a => a.Name == ATTR_HREF)
-            .Select(a => Convert.ToString(a.Value))
+            .Select(a => Convert.ToString(a.Value, CultureInfo.InvariantCulture))
             .FirstOrDefault();
 
-        if (string.IsNullOrWhiteSpace(href) || !Uri.IsWellFormedUriString(href, UriKind.Relative)) return null;
+        if (string.IsNullOrWhiteSpace(href) || !Uri.IsWellFormedUriString(href, UriKind.Relative))
+        {
+            return null;
+        }
 
-        var queryStringIndex = href.IndexOfAny(new char[] { '?', '#' });
+        var queryStringIndex = href.IndexOfAny(['?', '#']);
 
         if (queryStringIndex > -1)
         {

@@ -1,8 +1,8 @@
-﻿namespace Cofoundry.Samples.Menus;
+namespace Cofoundry.Samples.Menus;
 
 public class MultiLevelMenuViewModel
 {
-    public string MenuId { get; set; }
+    public required string MenuId { get; set; }
 
-    public ICollection<MultiLevelMenuNodeViewModel> Nodes { get; set; }
+    public required IReadOnlyCollection<MultiLevelMenuNodeViewModel> Nodes { get; set; }
 }

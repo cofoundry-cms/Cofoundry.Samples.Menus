@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace Cofoundry.Samples.Menus;
 
@@ -20,5 +20,5 @@ public class NestedMenuDataModel : ICustomEntityDataModel
 {
     [Required]
     [NestedDataModelCollection(IsOrderable = true)]
-    public ICollection<NestedMenuItemDataModel> Items { get; set; }
+    public IReadOnlyCollection<NestedMenuItemDataModel> Items { get; set; } = Array.Empty<NestedMenuItemDataModel>();
 }

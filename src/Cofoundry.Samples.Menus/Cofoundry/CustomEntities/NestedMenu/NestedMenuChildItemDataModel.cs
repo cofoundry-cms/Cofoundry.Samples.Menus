@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace Cofoundry.Samples.Menus;
 
@@ -9,7 +9,7 @@ public class NestedMenuChildItemDataModel : INestedDataModel
 {
     [Required]
     [MaxLength(30)]
-    public string Title { get; set; }
+    public string Title { get; set; } = string.Empty;
 
     [Required]
     [Page]

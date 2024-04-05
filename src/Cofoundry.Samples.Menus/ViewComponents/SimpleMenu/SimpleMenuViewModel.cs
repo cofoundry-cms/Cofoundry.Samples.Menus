@@ -1,8 +1,8 @@
-﻿namespace Cofoundry.Samples.Menus;
+namespace Cofoundry.Samples.Menus;
 
 public class SimpleMenuViewModel
 {
-    public string MenuId { get; set; }
+    public required string MenuId { get; set; }
 
-    public ICollection<PageRoute> Pages { get; set; }
+    public required IReadOnlyCollection<PageRoute> Pages { get; set; }
 }

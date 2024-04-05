@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Cofoundry.Samples.Menus;
 
@@ -29,12 +29,19 @@ public class SimpleMenuViewComponent : ViewComponent
 
     public async Task<IViewComponentResult> InvokeAsync(string menuId)
     {
-        var viewModel = new SimpleMenuViewModel();
-        viewModel.MenuId = menuId;
+        var viewModel = new SimpleMenuViewModel
+        {
+            MenuId = menuId,
+            Pages = Array.Empty<PageRoute>()
+        };
 
         var menuEntity = await GetMenuByIdAsync(menuId);
 
-        if (menuEntity == null) return View(viewModel);
+        if (menuEntity == null)
+        {
+            return View(viewModel);
+        }
+
         var dataModel = (SimpleMenuDataModel)menuEntity.Model;
 
         // Id range queries return a dictionary to allow easy lookups
@@ -48,12 +55,12 @@ public class SimpleMenuViewComponent : ViewComponent
 
         viewModel.Pages = allPages
             .FilterAndOrderByKeys(dataModel.PageIds)
-            .ToList();
+            .ToArray();
 
         return View(viewModel);
     }
 
-    private async Task<CustomEntityRenderSummary> GetMenuByIdAsync(string menuId)
+    private async Task<CustomEntityRenderSummary?> GetMenuByIdAsync(string menuId)
     {
         var customEntityQuery = new GetCustomEntityRenderSummariesByUrlSlugQuery(SimpleMenuDefinition.DefinitionCode, menuId);
         var menus = await _contentRepository.ExecuteQueryAsync(customEntityQuery);

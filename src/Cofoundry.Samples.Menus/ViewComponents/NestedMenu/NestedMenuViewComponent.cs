@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Cofoundry.Samples.Menus;
 
@@ -20,14 +20,21 @@ public class NestedMenuViewComponent : ViewComponent
 
     public async Task<IViewComponentResult> InvokeAsync(string menuId)
     {
-        var viewModel = new NestedMenuViewModel();
-        viewModel.MenuId = menuId;
+        var viewModel = new NestedMenuViewModel
+        {
+            MenuId = menuId,
+            Items = Array.Empty<NestedMenuItemViewModel>()
+        };
 
         // Get the menu entity
         var menuEntity = await GetMenuByIdAsync(menuId);
 
         // If not exists, return empty model
-        if (menuEntity == null) return View(viewModel);
+        if (menuEntity == null)
+        {
+            return View(viewModel);
+        }
+
         var dataModel = (NestedMenuDataModel)menuEntity.Model;
 
         // Gather all pages required for mapping
@@ -41,7 +48,7 @@ public class NestedMenuViewComponent : ViewComponent
         // Map the menu items
         viewModel.Items = EnumerableHelper.Enumerate(dataModel.Items)
             .Select(i => MapNestedItemViewModel(i, allPages))
-            .Where(i => i.PageRoute != null)
+            .WhereNotNull()
             .ToArray();
 
         // If you wanted different menu styles you could pass the 
@@ -49,29 +56,42 @@ public class NestedMenuViewComponent : ViewComponent
         return View(viewModel);
     }
 
-    private NestedMenuItemViewModel MapNestedItemViewModel(NestedMenuItemDataModel dataModel, IDictionary<int, PageRoute> allPages)
+    private static NestedMenuItemViewModel? MapNestedItemViewModel(NestedMenuItemDataModel dataModel, IReadOnlyDictionary<int, PageRoute> allPages)
     {
+        var pageRoute = allPages.GetValueOrDefault(dataModel.PageId);
+        if (pageRoute == null)
+        {
+            return null;
+        }
+
+        var childItems = EnumerableHelper
+            .Enumerate(dataModel.ChildItems)
+            .Select(i => MapNestedChildItemViewModel(i, allPages))
+            .WhereNotNull()
+            .ToArray();
+
         var viewModelItem = new NestedMenuItemViewModel()
         {
             Title = dataModel.Title,
-            PageRoute = allPages.GetOrDefault(dataModel.PageId)
+            PageRoute = pageRoute,
+            ChildItems = childItems
         };
-
-        viewModelItem.ChildItems = EnumerableHelper
-            .Enumerate(dataModel.ChildItems)
-            .Select(i => MapNestedChildItemViewModel(i, allPages))
-            .Where(i => i.PageRoute != null)
-            .ToArray();
 
         return viewModelItem;
     }
 
-    private NestedMenuChildItemViewModel MapNestedChildItemViewModel(NestedMenuChildItemDataModel dataModel, IDictionary<int, PageRoute> allPages)
+    private static NestedMenuChildItemViewModel? MapNestedChildItemViewModel(NestedMenuChildItemDataModel dataModel, IReadOnlyDictionary<int, PageRoute> allPages)
     {
+        var pageRoute = allPages.GetValueOrDefault(dataModel.PageId);
+        if (pageRoute == null)
+        {
+            return null;
+        }
+
         var viewModelItem = new NestedMenuChildItemViewModel()
         {
             Title = dataModel.Title,
-            PageRoute = allPages.GetOrDefault(dataModel.PageId)
+            PageRoute = pageRoute
         };
 
         return viewModelItem;
@@ -92,7 +112,7 @@ public class NestedMenuViewComponent : ViewComponent
         return level1Itds.Union(level2Ids);
     }
 
-    private async Task<CustomEntityRenderSummary> GetMenuByIdAsync(string menuId)
+    private async Task<CustomEntityRenderSummary?> GetMenuByIdAsync(string menuId)
     {
         var customEntityQuery = new GetCustomEntityRenderSummariesByUrlSlugQuery(NestedMenuDefinition.DefinitionCode, menuId);
         var menus = await _contentRepository.ExecuteQueryAsync(customEntityQuery);

@@ -1,8 +1,8 @@
-﻿namespace Cofoundry.Samples.Menus;
+namespace Cofoundry.Samples.Menus;
 
 public class NestedMenuViewModel
 {
-    public string MenuId { get; set; }
+    public required string MenuId { get; set; }
 
-    public ICollection<NestedMenuItemViewModel> Items { get; set; }
+    public required IReadOnlyCollection<NestedMenuItemViewModel> Items { get; set; }
 }
